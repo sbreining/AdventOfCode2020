@@ -9,12 +9,24 @@ def get_input():
 
 
 def get_product(report):
-    for i in range(len(report) - 2):
-        for j in range(len(report) - 1):
-            for k in range(len(report)):
-                sum_ = int(report[i]) + int(report[j]) + int(report[k])
+    i = 0
+    while i < len(report) - 2:
+        j = 1 + i
+        while j < len(report) - 1:
+            first = int(report[i])
+            second = int(report[j])
+            if first + second >= 2020:
+                j += 1
+                continue
+            k = 1 + j
+            while k < len(report):
+                third = int(report[k])
+                sum_ = first + second + third
                 if sum_ == 2020:
-                    return int(report[i]) * int(report[j]) * int(report[k])
+                    return first * second * third
+                k += 1
+            j += 1
+        i += 1
 
 
 expense_report = get_input()

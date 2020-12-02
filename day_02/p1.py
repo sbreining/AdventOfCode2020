@@ -13,12 +13,7 @@ def num_of_valid_passwords(pass_list):
     for item in pass_list:
         (min_, max_, req_char, password) = parse_string(item)
 
-        letter_count = 0
-        for letter in password:
-            if letter == req_char:
-                letter_count += 1
-
-        if int(min_) <= letter_count <= int(max_):
+        if int(min_) <= password.count(req_char) <= int(max_):
             valid_passwords += 1
 
     return valid_passwords

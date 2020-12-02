@@ -1,14 +1,14 @@
-import os
-
-
-def get_input():
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    with open(os.path.join(dir_path, "input.txt"), "r") as infile:
-        report = infile.readlines()
-    return report
+from get_input import get_input
 
 
 def get_product(report):
+    '''
+    This does a single pass through the array of numbers, storing the previously
+    seen values in a dictionary. Take the given number, and find its compliment
+    (2020 minus number). If the dictionary contains that number, we've already
+    seen it, and we know we can add the current number and compliment to get
+    2020. Just return the product at that point.
+    '''
     dictionary = {}
 
     for i in range(len(report)):
@@ -21,8 +21,4 @@ def get_product(report):
         dictionary[num] = i
 
 
-expense_report = get_input()
-
-product = get_product(expense_report)
-
-print(product)
+print(get_product(get_input()))

@@ -14,6 +14,7 @@ the decision to opt for `python`.
 ## Project Structure
 
 Each day will have a folder with the name `day_[\d]{2}`. Within each folder will
-be `p1.py` and `p2.py` (for each part of the day), and `input.txt`. I will use
+be `p1.py` and `p2.py` (for each part of the day), `input.txt` for the challenge
+input, and get_input.py which is a copy paste to get the input. I will use
 the `os` module so that the code can be run from any directory. Like
 `python day_1/p1.py` or `cd day_1` then `python p1.py`.

@@ -1,12 +1,14 @@
-from get_input import get_input
-import re
-
-
-def parse_string(item):
-    return re.match(r'^(\d+)-(\d+) ([a-z]): ([a-z]+)$', item).groups()
+from tools import get_input, parse_string
 
 
 def num_of_valid_passwords(pass_list):
+    '''
+    Password validation requires a range of the required character. The
+    parse_string call will return the min and max, as well as the required
+    character and password itself. Iterating through the characters of the
+    password, we'll make sure it hits the expected range. If it is in range,
+    increment valid_passwords.
+    '''
     valid_passwords = 0
     for item in pass_list:
         (min_, max_, req_char, password) = parse_string(item)

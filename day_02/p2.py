@@ -14,14 +14,11 @@ def num_of_valid_passwords(pass_list):
     for item in pass_list:
         (pos_1, pos_2, req_char, password) = parse_string(item)
 
-        is_pos_1 = password[int(pos_1) - 1] == req_char
+        char_one = password[int(pos_1) - 1]
+        char_two = password[int(pos_2) - 1]
 
-        if password[int(pos_2) - 1] == req_char:
-            if not is_pos_1:
-                valid_passwords += 1
-        else:
-            if is_pos_1:
-                valid_passwords += 1
+        if char_one != char_two and (char_one == req_char or char_two == req_char):
+            valid_passwords += 1
 
     return valid_passwords
 

@@ -2,14 +2,14 @@ from os.path import dirname, realpath, join
 import re
 
 
-def get_input():
+def get_input() -> list:
     dir_path = dirname(realpath(__file__))
     with open(join(dir_path, "input.txt"), "r") as infile:
-        report = infile.readlines()
+        report = infile.read().splitlines()
     return report
 
 
-def parse_string(item):
+def parse_string(item: str) -> tuple:
     '''
     Breaks down each line of the input file and returns
     a tuple of the expected groups.

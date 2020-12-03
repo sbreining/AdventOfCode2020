@@ -1,7 +1,7 @@
 from tools import get_input
 
 
-def get_product(report):
+def get_product(report: list) -> int:
     '''
     This does a single pass through the array of numbers, storing the previously
     seen values in a dictionary. Take the given number, and find its compliment

@@ -1,26 +1,41 @@
 from tools import get_input
 
 
-def day_3(down, right, tree_map):
+def count_trees(rise: int, run: int, tree_map: list) -> int:
+    '''
+    In part two, we have the same case as part one, but we allow the slope of
+    traversing the map to be passed in as a parameter.
+    '''
     trees = 0
     x = y = 0
-    while x < len(tree_map):
-        if tree_map[x][y] == '#':
+    while y < len(tree_map):
+        if tree_map[y][x] == '#':
             trees += 1
-        y = (y + right) % (len(tree_map[0]) - 1)
-        x += down
+        x = (x + run) % (len(tree_map[0]))
+        y += rise
 
     return trees
 
 
-d1_r1 = day_3(1, 1, get_input())
+def get_product() -> int:
+    '''
+    The puzzle was to get the product of multiple routes. This helper function
+    keeps track of, and then returns, the product.
+    '''
+    tree_map = get_input()
+    slopes = [
+        {'rise': 1, 'run': 1},
+        {'rise': 1, 'run': 3},
+        {'rise': 1, 'run': 5},
+        {'rise': 1, 'run': 7},
+        {'rise': 2, 'run': 1}
+    ]
 
-d1_r3 = day_3(1, 3, get_input())
+    product = 1
+    for slope in slopes:
+        product *= count_trees(slope['rise'], slope['run'], tree_map)
 
-d1_r5 = day_3(1, 5, get_input())
+    return product
 
-d1_r7 = day_3(1, 7, get_input())
 
-d2_r1 = day_3(2, 1, get_input())
-
-print(d1_r1 * d1_r3 * d1_r5 * d1_r7 * d2_r1)
+print(get_product())

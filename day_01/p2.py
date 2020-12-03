@@ -1,7 +1,7 @@
 from tools import get_input
 
 
-def get_product(report):
+def get_product(report: list) -> int:
     '''
     Not quite as eloquent as the sum of 2 numbers. Instead this will iterate
     (without covering any combination of 3 values more than once) over each

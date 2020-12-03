@@ -1,7 +1,7 @@
 from tools import get_input, parse_string
 
 
-def num_of_valid_passwords(pass_list):
+def num_of_valid_passwords(pass_list: list) -> int:
     '''
     Password validation requires a range of the required character. The
     parse_string call will return the min and max, as well as the required

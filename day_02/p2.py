@@ -1,7 +1,7 @@
 from tools import get_input, parse_string
 
 
-def num_of_valid_passwords(pass_list):
+def num_of_valid_passwords(pass_list: list) -> int:
     '''
     In this version of the password validation, it requires an XOR of sorts.
     Instead of the two numbers in the input representing a range for the

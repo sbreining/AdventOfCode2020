@@ -1,5 +1,12 @@
-from tools import get_input
+from os.path import dirname, realpath, join
 import re
+
+
+def get_input() -> list:
+    dir_path = dirname(realpath(__file__))
+    with open(join(dir_path, "input.txt"), "r") as infile:
+        report = infile.readlines()
+    return report
 
 
 def get_passports():
@@ -7,16 +14,16 @@ def get_passports():
     passports = []
 
     tempstring = ""
-    for passport in input_:
-        if passport != '':
-            tempstring += passport
+    for line in input_:
+        if line != '\n':
+            tempstring += (" " + line.strip())
         else:
-            passports.append(tempstring)
+            passports.append(tempstring.strip())
             tempstring = ""
 
     # Add remaining passport if any.
     if tempstring:
-        passports.append(tempstring)
+        passports.append(tempstring.strip())
 
     return passports
 
@@ -71,31 +78,6 @@ def is_valid_hgt(hgt: str) -> bool:
         return 59 <= val <= 76
 
 
-def is_valid_hcl(hcl: str) -> bool:
-    hcl = hcl[1:]
-
-    if len(hcl) != 6:
-        return False
-
-    return re.match(r'^[a-z0-9]{6}$', hcl) != None
-
-
-def is_valid_ecl(ecl: str) -> bool:
-    return ecl in ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth']
-
-
-def is_valid_pid(pid: str) -> bool:
-    if len(pid) != 9:
-        return False
-
-    try:
-        int(pid)
-    except:
-        return False
-
-    return True
-
-
 def day_4():
     passports = get_passports()
 
@@ -105,10 +87,8 @@ def day_4():
         is_valid = True
         while required_fields:
             field = required_fields.pop()
-
             if field == 'byr':
-                prog = re.compile('.*byr:(.{4})')
-                byr = prog.match(passport)
+                byr = re.match(r'.*byr:(\d{4})', passport)
                 if byr == None:
                     is_valid = False
                     break
@@ -116,8 +96,7 @@ def day_4():
                 if not is_valid_byr(byr):
                     is_valid = False
             elif field == 'iyr':
-                prog = re.compile('.*iyr:(.{4})')
-                iyr = prog.match(passport)
+                iyr = re.match(r'.*iyr:(\d{4})', passport)
                 if iyr == None:
                     is_valid = False
                     break
@@ -126,8 +105,7 @@ def day_4():
                     is_valid = False
                     break
             elif field == 'eyr':
-                prog = re.compile('.*eyr:(.{4})')
-                eyr = prog.match(passport)
+                eyr = re.match(r'.*eyr:(\d{4})', passport)
                 if eyr == None:
                     is_valid = False
                     break
@@ -136,8 +114,7 @@ def day_4():
                     is_valid = False
                     break
             elif field == 'hgt':
-                prog = re.compile('.*hgt:(\d{2,3}(in|cm))')
-                hgt = prog.match(passport)
+                hgt = re.match(r'.*hgt:(\d{2,3}(in|cm))', passport)
                 if hgt == None:
                     is_valid = False
                     break
@@ -146,23 +123,14 @@ def day_4():
                     is_valid = False
                     break
             elif field == 'hcl':
-                prog = re.compile('.*hcl:(#.{6})')
-                hcl = prog.match(passport)
+                hcl = re.match(r'.*hcl:#[a-f0-9]{6}', passport)
                 if hcl == None:
                     is_valid = False
                     break
-                hcl = hcl.group(1)
-                if not is_valid_hcl(hcl):
-                    is_valid = False
-                    break
             elif field == 'ecl':
-                eclprog = re.compile('.*ecl:(.{3})')
-                ecl = eclprog.match(passport)
+                ecl = re.match(
+                    r'.*ecl:(amb|blu|brn|gry|grn|hzl|oth)', passport)
                 if ecl == None:
-                    is_valid = False
-                    break
-                ecl = ecl.group(1)
-                if not is_valid_ecl(ecl):
                     is_valid = False
                     break
             elif field == 'pid':
@@ -170,10 +138,7 @@ def day_4():
                 if pid == None:
                     is_valid = False
                     break
-                pid = pid.group(1)
-                if not is_valid_pid(pid):
-                    is_valid = False
-                    break
+
         if is_valid:
             good_passports += 1
 

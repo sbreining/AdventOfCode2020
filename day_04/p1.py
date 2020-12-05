@@ -2,33 +2,40 @@ from tools import get_input
 import re
 
 
-def day_4():
-    passports = get_input()
-    new_list = []
+def get_passports():
+    input_ = get_input()
+    passports = []
 
     tempstring = ""
-    # TODO: Look at this loop.
-    for passport in passports:
+    for passport in input_:
         if passport != '':
             tempstring += passport
         else:
-            new_list.append(tempstring)
+            passports.append(tempstring)
             tempstring = ""
 
-    good_passports = 0
+    # Add remaining passport if any.
+    if tempstring:
+        passports.append(tempstring)
 
-    for item in new_list:
+    return passports
+
+
+def day_4():
+    passports = get_passports()
+
+    good_passports = 0
+    for passport in passports:
         required_fields = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
-        col_pos = item.find(':')
-        print(item)
+        col_pos = passport.find(':')
         while col_pos > 0:
-            pp_data = item[col_pos-3:col_pos]
+            pp_data = passport[col_pos-3:col_pos]
             try:
                 required_fields.remove(pp_data)
             except ValueError:
                 pass
-            item = item[col_pos+1:]
-            col_pos = item.find(':')
+            passport = passport[col_pos+1:]
+            col_pos = passport.find(':')
         if required_fields == []:
             good_passports += 1
 

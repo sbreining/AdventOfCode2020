@@ -1,11 +1,4 @@
-from tools import get_input
-
-
-def get_seat_id(row: int, column: int) -> int:
-    '''
-    The formula for calculating the seat ID.
-    '''
-    return row * 8 + column
+from tools import get_input, first_half_of, last_half_of, get_seat_id
 
 
 def get_passes_sorted() -> list:
@@ -16,27 +9,26 @@ def get_passes_sorted() -> list:
     '''
     boarding_passes = get_input()
 
-    pass_ids = []
+    board_pass_ids = []
     for bp in boarding_passes:
         rows = [i for i in range(128)]
         columns = [i for i in range(8)]
 
         for letter in bp:
             if letter == 'F':
-                rows = rows[:int(len(rows)/2)]
+                rows = first_half_of(rows)
             elif letter == 'B':
-                rows = rows[int(len(rows)/2):]
-            elif letter == 'R':
-                columns = columns[int(len(columns)/2):]
+                rows = last_half_of(rows)
             elif letter == 'L':
-                columns = columns[:int(len(columns)/2)]
+                columns = first_half_of(columns)
+            else:
+                columns = last_half_of(columns)
 
-        # We can pop, because there is only 1 element left.
-        pass_ids.append(get_seat_id(rows[0], columns[0]))
+        board_pass_ids.append(get_seat_id(rows[0], columns[0]))
 
-    pass_ids.sort()
+    board_pass_ids.sort()
 
-    return pass_ids
+    return board_pass_ids
 
 
 def get_my_seat() -> int:
@@ -47,13 +39,13 @@ def get_my_seat() -> int:
     through the sorted IDs until we find one where the
     +1 is missing, that is our seat.
     '''
-    pass_ids = get_passes_sorted()
+    board_pass_ids = get_passes_sorted()
 
-    for pi in pass_ids:
-        if pi + 1 not in pass_ids:
+    for pi in board_pass_ids:
+        if pi + 1 not in board_pass_ids:
             return pi + 1
 
-    return pass_ids
+    return board_pass_ids
 
 
 print(get_my_seat())

@@ -1,11 +1,4 @@
-from tools import get_input
-
-
-def get_seat_id(row: int, column: int) -> int:
-    '''
-    The formula for calculating the seat ID.
-    '''
-    return row * 8 + column
+from tools import get_input, first_half_of, last_half_of, get_seat_id
 
 
 def max_boarding_pass_id() -> int:
@@ -23,13 +16,13 @@ def max_boarding_pass_id() -> int:
 
         for letter in bp:
             if letter == 'F':
-                rows = rows[:int(len(rows)/2)]
+                rows = first_half_of(rows)
             elif letter == 'B':
-                rows = rows[int(len(rows)/2):]
-            elif letter == 'R':
-                columns = columns[int(len(columns)/2):]
+                rows = last_half_of(rows)
             elif letter == 'L':
-                columns = columns[:int(len(columns)/2)]
+                columns = first_half_of(columns)
+            else:
+                columns = last_half_of(columns)
 
         current_max = max(current_max, get_seat_id(rows[0], columns[0]))
 

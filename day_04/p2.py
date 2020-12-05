@@ -83,64 +83,48 @@ def day_4():
 
     good_passports = 0
     for passport in passports:
-        required_fields = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
-        is_valid = True
-        while required_fields:
-            field = required_fields.pop()
-            if field == 'byr':
-                byr = re.match(r'.*byr:(\d{4})', passport)
-                if byr == None:
-                    is_valid = False
-                    break
-                byr = byr.group(1)
-                if not is_valid_byr(byr):
-                    is_valid = False
-            elif field == 'iyr':
-                iyr = re.match(r'.*iyr:(\d{4})', passport)
-                if iyr == None:
-                    is_valid = False
-                    break
-                iyr = iyr.group(1)
-                if not is_valid_iyr(iyr):
-                    is_valid = False
-                    break
-            elif field == 'eyr':
-                eyr = re.match(r'.*eyr:(\d{4})', passport)
-                if eyr == None:
-                    is_valid = False
-                    break
-                eyr = eyr.group(1)
-                if not is_valid_eyr(eyr):
-                    is_valid = False
-                    break
-            elif field == 'hgt':
-                hgt = re.match(r'.*hgt:(\d{2,3}(in|cm))', passport)
-                if hgt == None:
-                    is_valid = False
-                    break
-                hgt = hgt.group(1)
-                if not is_valid_hgt(hgt):
-                    is_valid = False
-                    break
-            elif field == 'hcl':
-                hcl = re.match(r'.*hcl:#[a-f0-9]{6}', passport)
-                if hcl == None:
-                    is_valid = False
-                    break
-            elif field == 'ecl':
-                ecl = re.match(
-                    r'.*ecl:(amb|blu|brn|gry|grn|hzl|oth)', passport)
-                if ecl == None:
-                    is_valid = False
-                    break
-            elif field == 'pid':
-                pid = re.match(r'.*pid:(\d{9})', passport)
-                if pid == None:
-                    is_valid = False
-                    break
+        byr = re.match(r'.*byr:(\d{4})', passport)
+        if byr == None:
+            continue
+        byr = byr.group(1)
+        if not is_valid_byr(byr):
+            continue
 
-        if is_valid:
-            good_passports += 1
+        iyr = re.match(r'.*iyr:(\d{4})', passport)
+        if iyr == None:
+            continue
+        iyr = iyr.group(1)
+        if not is_valid_iyr(iyr):
+            continue
+
+        eyr = re.match(r'.*eyr:(\d{4})', passport)
+        if eyr == None:
+            continue
+        eyr = eyr.group(1)
+        if not is_valid_eyr(eyr):
+            continue
+
+        hgt = re.match(r'.*hgt:(\d{2,3}(in|cm))', passport)
+        if hgt == None:
+            continue
+        hgt = hgt.group(1)
+        if not is_valid_hgt(hgt):
+            continue
+
+        hcl = re.match(r'.*hcl:#[a-f0-9]{6}', passport)
+        if hcl == None:
+            continue
+
+        ecl = re.match(
+            r'.*ecl:(amb|blu|brn|gry|grn|hzl|oth)', passport)
+        if ecl == None:
+            continue
+
+        pid = re.match(r'.*pid:(\d{9})', passport)
+        if pid == None:
+            continue
+
+        good_passports += 1
 
     return good_passports
 

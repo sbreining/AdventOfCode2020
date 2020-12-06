@@ -11,20 +11,13 @@ def max_boarding_pass_id() -> int:
 
     current_max = -1
     for bp in boarding_passes:
-        rows = [i for i in range(128)]
-        columns = [i for i in range(8)]
+        row = bp[:7]
+        col = bp[7:]
 
-        for letter in bp:
-            if letter == 'F':
-                rows = first_half_of(rows)
-            elif letter == 'B':
-                rows = last_half_of(rows)
-            elif letter == 'L':
-                columns = first_half_of(columns)
-            else:
-                columns = last_half_of(columns)
+        row = int(row.replace('F', '0').replace('B', '1'), 2)
+        col = int(col.replace('L', '0').replace('R', '1'), 2)
 
-        current_max = max(current_max, get_seat_id(rows[0], columns[0]))
+        current_max = max(current_max, get_seat_id(row, col))
 
     return current_max
 

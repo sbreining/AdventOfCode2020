@@ -1,48 +1,63 @@
-from tools import get_input
+from tools import get_input, parse_instruction
 
 
-def day_8(stuff):
-    acc = 0
-    itr = 0
-    while itr < len(stuff):
-        temp = stuff[itr].split(' ')
+def execute_program(program: list) -> int:
+    '''
+    Similar to part 1, this will execute the program input. However, unlike
+    part 1, it will return -1 when it enters an infinite loop instead of
+    returning the current accumulator value.
+    '''
+    accumulator = line_number = 0
+    while line_number < len(program):
+        (op, value, was_exected) = parse_instruction(program[line_number])
 
-        if len(temp) == 3:
+        if was_exected:
+            # Porgram entered infinite loop.
             return -1
 
-        stuff[itr] += ' true'
+        program[line_number] += ' true'
 
-        if temp[0] == 'acc':
-            acc += int(temp[1])
-            itr+=1
-        elif temp[0] == 'jmp':
-            itr += int(temp[1])
+        if op == 'acc':
+            accumulator += value
+            line_number += 1
+        elif op == 'jmp':
+            line_number += value
         else:
-            itr += 1
+            line_number += 1
 
-    return acc
+    return accumulator
 
-def something():
-    stuff = get_input()
-    
-    acc = 0
-    for shit in range(len(stuff)):
-        copy = stuff.copy()
-        temp = copy[shit].split(' ')
-        if temp[0] == 'nop':
-            temp[0] = 'jmp'
-            copy[shit] = ' '.join(temp)
-        elif temp[0] == 'jmp':
-            temp[0] = 'nop'
-            copy[shit] = ' '.join(temp)
-        else:
+
+def debug_program() -> int:
+    '''
+    We were told that the program bug was that exactly one operation was
+    flipped, and that it was either a NOP to a JMP, or a JMP to a NOP.
+    We'll iterate by line number, and for the given line in the program, first
+    copy the program, then check the operation at the line, flip it if it is
+    NOP or JMP. Then execute the program, and make sure it does not get caught
+    in an infinite loop. We were told the program would only execute each
+    instruction once, so the first repeat is considered an infinite loop.
+    Return the accumulator value of the successfully run program.
+    '''
+    program = get_input()
+
+    for line_number in range(len(program)):
+        program_copy = program.copy()
+
+        (op, value, _) = parse_instruction(program_copy[line_number])
+
+        if op == 'acc':
             continue
 
-        acc = day_8(copy)
-        if acc > 0:
-            break
-            
-    return acc
+        # Flip operation and write new instruction
+        op = 'jmp' if op == 'nop' else 'nop'
+        program_copy[line_number] = op + ' ' + str(value)
+
+        accumulator = execute_program(program_copy)
+        if accumulator > 0:
+            return accumulator
+
+    return -1
 
 
-print(something())
+print(debug_program())

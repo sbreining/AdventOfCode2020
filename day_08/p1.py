@@ -1,28 +1,32 @@
-from tools import get_input
+from tools import get_input, parse_instruction
 
 
-def day_8():
-    stuff = get_input()
+def exectue_program() -> int:
+    '''
+    This will execute the given program (puzzle input), and keep track of
+    the accumulator value. Then it will return the accumulator value at the
+    first repeated instruction.
+    '''
+    program = get_input()
 
-    acc = 0
-    itr = 0
-    while itr < len(stuff):
-        temp = stuff[itr].split(' ')
+    accumulator = line_number = 0
+    while line_number < len(program):
+        (op, value, was_executed) = parse_instruction(program[line_number])
 
-        if len(temp) == 3:
+        if was_executed:
             break
 
-        stuff[itr] += ' true'
+        program[line_number] += ' executed'
 
-        if temp[0] == 'acc':
-            acc += int(temp[1])
-            itr+=1
-        elif temp[0] == 'jmp':
-            itr += int(temp[1])
+        if op == 'acc':
+            accumulator += value
+            line_number += 1
+        elif op == 'jmp':
+            line_number += value
         else:
-            itr += 1
+            line_number += 1
 
-    return acc
+    return accumulator
 
 
-print(day_8())
+print(exectue_program())

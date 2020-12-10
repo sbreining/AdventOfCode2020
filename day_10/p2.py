@@ -1,30 +1,45 @@
-from tools import get_input
+from tools import get_input, Graph
 
 
 def day_10():
-    shit = get_input()
+    values = get_input()
 
-    shit.sort()
+    values.sort()
 
-    dict = {}
-    for i in range(len(shit)):
-        dict[shit[i]] = []
-        itr = i + 1
-        while itr < i+4:
-            try:
-                if shit[itr] - shit[i] <= 3:
-                    dict[shit[i]].append(shit[itr])
-            except:
-                pass
-            itr += 1
+    values.insert(0, 0)
+    values.append(values[-1] + 3)
 
-    permutations = 1
-    for value in dict.values():
-        if not value:
-            pass
-        else:
-            permutations *= len(value)
-    return permutations
+    subgraphs = []
+    choke_point = 3
+    i = 0
+    itr = 1
+    for itr in range(len(values)):
+        if values[itr] - values[itr-1] == choke_point:
+            subgraphs.append(values[i:itr])
+            i = itr
+
+    total = 1
+    for sub in subgraphs:
+        dict = {}
+
+        for i in range(len(sub)):
+            dict[sub[i]] = []
+            itr = i + 1
+            while itr < i+4:
+                try:
+                    if sub[itr] - sub[i] < 4:
+                        dict[sub[i]].append(sub[itr])
+                except:
+                    pass
+                itr += 1
+
+        graph = Graph(dict)
+
+        val = graph.countAllPaths(sub[0], sub[-1])
+        print(val)
+        total *= val
+
+    return total
 
 
 print(day_10())

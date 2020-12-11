@@ -35,9 +35,7 @@ def day_10():
 
         graph = Graph(dict)
 
-        val = graph.countAllPaths(sub[0], sub[-1])
-        print(val)
-        total *= val
+        total *= graph.countAllPaths(sub[0], sub[-1])
 
     return total
 

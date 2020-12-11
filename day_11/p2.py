@@ -1,129 +1,171 @@
 from tools import get_input
 
 
+def walk_nw(i, j, seat_map):
+    # Don't start on the current seat
+    i -= 1
+    j -= 1
+    while i > -1 and j > -1:
+        if seat_map[i][j] == '#':
+            return False
+        elif seat_map[i][j] == 'L':
+            return True
+
+        i -= 1
+        j -= 1
+
+    return True
+
+
+def walk_ne(i, j, seat_map):
+    # Don't start on the current seat
+    i -= 1
+    j += 1
+    while i > -1 and j < len(seat_map[0]):
+        if seat_map[i][j] == '#':
+            return False
+        elif seat_map[i][j] == 'L':
+            return True
+
+        i -= 1
+        j += 1
+
+    return True
+
+
+def walk_se(i, j, seat_map):
+    # Don't start on the current seat
+    i += 1
+    j += 1
+    while i < len(seat_map) and j < len(seat_map[0]):
+        if seat_map[i][j] == '#':
+            return False
+        elif seat_map[i][j] == 'L':
+            return True
+
+        i += 1
+        j += 1
+
+    return True
+
+
+def walk_sw(i, j, seat_map):
+    print('enter walk_sw at (%d, %d)', i, j)
+    # Don't start on the current seat
+    i += 1
+    j -= 1
+    while i < len(seat_map) and j > -1:
+        if seat_map[i][j] == '#':
+            print(i, j, 'false')
+            return False
+        elif seat_map[i][j] == 'L':
+            print(i, j, 'true')
+            return True
+
+        i += 1
+        j -= 1
+
+    print(i, j, 'true out of loop')
+    return True
+
+
+def walk_w(i, j, seat_map):
+    # Don't start on the current seat
+    j -= 1
+    while j > -1:
+        if seat_map[i][j] == '#':
+            return False
+        elif seat_map[i][j] == 'L':
+            return True
+
+        j -= 1
+
+    return True
+
+
+def walk_e(i, j, seat_map):
+    # Don't start on the current seat
+    j = 1
+    while j < len(seat_map[0]):
+        if seat_map[i][j] == '#':
+            return False
+        elif seat_map[i][j] == 'L':
+            return True
+
+        j += 1
+
+    return True
+
+
+def walk_n(i, j, seat_map):
+    # Don't start on the current seat
+    i -= 1
+    while i > -1:
+        if seat_map[i][j] == '#':
+            return False
+        elif seat_map[i][j] == 'L':
+            return True
+
+        i -= 1
+
+    return True
+
+
+def walk_s(i, j, seat_map):
+    # Don't start on the current seat
+    i += 1
+    while i < len(seat_map):
+        if seat_map[i][j] == '#':
+            return False
+        elif seat_map[i][j] == 'L':
+            return True
+
+        i += 1
+
+    return True
+
+
 def can_sit(i, j, seat_map):
-    try:
-        if i < 1 or j < 1:
-            pass
-        elif seat_map[i-1][j-1] == '#':
-            return False
-    except:
-        pass
-
-    try:
-        if i < 1:
-            pass
-        elif seat_map[i-1][j] == '#':
-            return False
-    except:
-        pass
-
-    try:
-        if i < 1:
-            pass
-        elif seat_map[i-1][j+1] == '#':
-            return False
-    except:
-        pass
-
-    try:
-        if j < 1:
-            pass
-        elif seat_map[i][j-1] == '#':
-            return False
-    except:
-        pass
-
-    try:
-        if seat_map[i][j+1] == '#':
-            return False
-    except:
-        pass
-
-    try:
-        if j < 1:
-            pass
-        elif seat_map[i+1][j-1] == '#':
-            return False
-    except:
-        pass
-
-    try:
-        if seat_map[i+1][j] == '#':
-            return False
-    except:
-        pass
-
-    try:
-        if seat_map[i+1][j+1] == '#':
-            return False
-    except:
-        pass
+    if not walk_n(i, j, seat_map):
+        return False
+    if not walk_e(i, j, seat_map):
+        return False
+    if not walk_s(i, j, seat_map):
+        return False
+    if not walk_w(i, j, seat_map):
+        return False
+    if not walk_nw(i, j, seat_map):
+        return False
+    if not walk_ne(i, j, seat_map):
+        return False
+    if not walk_sw(i, j, seat_map):
+        return False
+    if not walk_se(i, j, seat_map):
+        return False
 
     return True
 
 
 def should_empty(i, j, seat_map):
     count = 0
-    try:
-        if i < 1 or j < 1:
-            pass
-        elif seat_map[i-1][j-1] == '#':
-            count += 1
-    except:
-        pass
+    if not walk_n(i, j, seat_map):
+        count += 1
+    if not walk_e(i, j, seat_map):
+        count += 1
+    if not walk_s(i, j, seat_map):
+        count += 1
+    if not walk_w(i, j, seat_map):
+        count += 1
+    if not walk_nw(i, j, seat_map):
+        count += 1
+    if not walk_ne(i, j, seat_map):
+        count += 1
+    if not walk_sw(i, j, seat_map):
+        count += 1
+    if not walk_se(i, j, seat_map):
+        count += 1
 
-    try:
-        if i < 1:
-            pass
-        elif seat_map[i-1][j] == '#':
-            count += 1
-    except:
-        pass
-
-    try:
-        if i < 1:
-            pass
-        elif seat_map[i-1][j+1] == '#':
-            count += 1
-    except:
-        pass
-
-    try:
-        if j < 1:
-            pass
-        elif seat_map[i][j-1] == '#':
-            count += 1
-    except:
-        pass
-
-    try:
-        if seat_map[i][j+1] == '#':
-            count += 1
-    except:
-        pass
-
-    try:
-        if j < 1:
-            pass
-        elif seat_map[i+1][j-1] == '#':
-            count += 1
-    except:
-        pass
-
-    try:
-        if seat_map[i+1][j] == '#':
-            count += 1
-    except:
-        pass
-
-    try:
-        if seat_map[i+1][j+1] == '#':
-            count += 1
-    except:
-        pass
-
-    return count > 3
+    return count > 4
 
 
 def pretty_print(matrix):
@@ -141,6 +183,7 @@ def day_11():
     for val in values:
         seat_map.append(list(val))
 
+    itr = 1
     while True:
         next_seats = []
         for i in range(len(seat_map)):
@@ -159,9 +202,16 @@ def day_11():
                     else:
                         next_seats[i].append('#')
 
+        print('----' + str(itr) + '----')
+        print('----START----')
+        pretty_print(seat_map)
+        print('-------------')
+        pretty_print(next_seats)
+        print('----FINISH---')
         if next_seats == seat_map:
             break
         else:
+            itr += 1
             seat_map = next_seats
             next_seats = []
 
@@ -177,3 +227,5 @@ def day_11():
 results = day_11()
 
 print(results)
+
+assert results == 26

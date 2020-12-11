@@ -2,6 +2,9 @@ from tools import get_input
 
 
 def can_sit(i, j, seat_map):
+    '''
+    I cleaned these up in part 2. I'm not cleaning it up here.
+    '''
     try:
         if i < 1 or j < 1:
             pass
@@ -64,6 +67,9 @@ def can_sit(i, j, seat_map):
 
 
 def should_empty(i, j, seat_map):
+    '''
+    I cleaned these up in part 2. I'm not cleaning it up here.
+    '''
     count = 0
     try:
         if i < 1 or j < 1:
@@ -126,52 +132,46 @@ def should_empty(i, j, seat_map):
     return count > 3
 
 
-def pretty_print(matrix):
-    s = [[str(e) for e in row] for row in matrix]
-    lens = [max(map(len, col)) for col in zip(*s)]
-    fmt = ' '.join('{{:{}}}'.format(x) for x in lens)
-    table = [fmt.format(*row) for row in s]
-    print('\n'.join(table))
+def build_next_seat_map(seat_map):
+    next_seats = []
+    for i in range(len(seat_map)):
+        next_seats.append([])
+        for j in range(len(seat_map[0])):
+            if seat_map[i][j] == '.':
+                # If it is a floor, just put a floor down
+                next_seats[i].append('.')
+            elif seat_map[i][j] == 'L':
+                next_seats[i].append('#') \
+                    if can_sit(i, j, seat_map) \
+                    else next_seats[i].append('L')
+            else:
+                next_seats[i].append('L') \
+                    if should_empty(i, j, seat_map) \
+                    else next_seats[i].append('#')
+
+    return next_seats
+
+
+def count_seats_occupied(seat_map):
+    count = 0
+    for row in seat_map:
+        count += row.count('#')
+
+    return count
 
 
 def day_11():
-    values = get_input()
-
-    seat_map = []
-    for val in values:
-        seat_map.append(list(val))
+    seat_map = get_input()
 
     while True:
-        next_seats = []
-        for i in range(len(seat_map)):
-            next_seats.append([])
-            for j in range(len(seat_map[0])):
-                if seat_map[i][j] == '.':
-                    next_seats[i].append('.')
-                elif seat_map[i][j] == 'L':
-                    if can_sit(i, j, seat_map):
-                        next_seats[i].append('#')
-                    else:
-                        next_seats[i].append('L')
-                else:
-                    if should_empty(i, j, seat_map):
-                        next_seats[i].append('L')
-                    else:
-                        next_seats[i].append('#')
+        next_seats = build_next_seat_map(seat_map)
 
         if next_seats == seat_map:
             break
         else:
             seat_map = next_seats
-            next_seats = []
 
-    count = 0
-    for row in seat_map:
-        for chair in row:
-            if chair == '#':
-                count += 1
-
-    return count
+    return count_seats_occupied(seat_map)
 
 
 results = day_11()

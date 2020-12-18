@@ -2,7 +2,6 @@ from tools import get_input
 
 
 def add_layers(hyper_cube):
-    # TODO: Pick up here. 4 dimensional space is too much for my brain right now.
     for cube in hyper_cube:
         for square in cube:
             for row in square:

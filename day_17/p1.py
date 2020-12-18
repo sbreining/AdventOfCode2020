@@ -23,142 +23,17 @@ def add_layers(cube):
 
 def count_neighbors(x, y, z, cube):
     count = 0
-    try:
-        if cube[x-1][y-1][z-1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x-1][y-1][z] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x-1][y-1][z+1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x-1][y][z-1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x-1][y][z] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x-1][y][z+1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x-1][y+1][z-1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x-1][y+1][z] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x-1][y+1][z+1] == '#':
-            count += 1
-    except:
-        pass
+    for a in range(x-1, x+2):
+        for b in range(y-1, y+2):
+            for c in range(z-1, z+2):
+                if a == x and b == y and c == z:
+                    continue
+                try:
+                    if cube[a][b][c] == '#':
+                        count += 1
+                except:
+                    pass
 
-    # BREAK
-
-    try:
-        if cube[x][y-1][z-1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x][y-1][z] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x][y-1][z+1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x][y][z-1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x][y][z+1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x][y+1][z-1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x][y+1][z] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x][y+1][z+1] == '#':
-            count += 1
-    except:
-        pass
-
-    # Break
-
-    try:
-        if cube[x+1][y-1][z-1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x+1][y-1][z] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x+1][y-1][z+1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x+1][y][z-1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x+1][y][z] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x+1][y][z+1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x+1][y+1][z-1] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x+1][y+1][z] == '#':
-            count += 1
-    except:
-        pass
-    try:
-        if cube[x+1][y+1][z+1] == '#':
-            count += 1
-    except:
-        pass
     return count
 
 

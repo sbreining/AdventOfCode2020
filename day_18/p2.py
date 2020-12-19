@@ -1,57 +1,61 @@
+from math import prod
 from tools import get_input
 
 
 def resolve_parens(eqtn):
+    '''
+    This was fun to write. Because there are both inner
+    parens, but could also be multiple groups within.
+    So this recursive function solves the parens from
+    right to left, then outer beyond that.
+    '''
     opening = eqtn.find('(')
 
     if opening == -1:
         closing = eqtn.find(')')
 
         if closing == -1:
-            print('Calculating Equation:', eqtn)
             return str(calculate(eqtn))
 
-        new_eq = str(calculate(eqtn[:closing])) + eqtn[closing+1:]
-        print('New equation:', new_eq)
-        return new_eq
+        return str(calculate(eqtn[:closing])) + eqtn[closing+1:]
 
     return resolve_parens(eqtn[0:opening] + resolve_parens(eqtn[opening+1:]))
 
 
 def calculate(eqtn):
-    print('Inside calculate():', eqtn)
     pieces = eqtn.split(' ')
 
-    print('Here are the pieces:', pieces)
-    
     if '+' in pieces:
-        resolved_sums = []
-        itr = 0
-        while itr < len(pieces) - 1:
-            if pieces[itr] == '+':
-                resolved_sums.pop()
-                resolved_sums.append(int(pieces[itr-1]) + int(pieces[itr+1]))
-            else:
-                resolved_sums.append(pieces[itr])
-            itr += 1
-    else:
-        resolved_sums = pieces
+        idx = pieces.index('+')
 
-    print('Here are the resolved sums:', resolved_sums)
+        # Calculate the sum first
+        new_val = int(pieces[idx-1]) + int(pieces[idx+1])
 
+        # Put the sum back in the equation
+        pieces[idx] = str(new_val)
+
+        # Remove the first number that was summed
+        del pieces[idx-1]
+
+        # Since the list indices change, this is removing
+        # the other number from the sum.
+        del pieces[idx]
+
+        # Continue calculating the new equation resolving
+        # sums first.
+        return calculate(' '.join(pieces))
+
+    # After all sums are calculated, find the product.
     product = 1
-    for val in resolved_sums:
-        if val != '*':
-            product *= int(val)
+    for piece in pieces:
+        if piece.isdigit():
+            product *= int(piece)
 
-    print('calculate() returning:', product)
     return product
 
 
 def day_18():
-    equation = '1 + (2 * 3) + (4 * (5 + 6))'
-    equation = resolve_parens(equation)
-    return calculate(equation)
+    equations = get_input().splitlines()
 
     sum_ = 0
     for equation in equations:
@@ -60,9 +64,7 @@ def day_18():
 
     return sum_
 
+
 results = day_18()
 
 print('Puzzle Answer:', results)
-
-assert results == 51
-

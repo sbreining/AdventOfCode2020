@@ -2,11 +2,6 @@ from tools import get_input
 
 
 def all_possible(key, rules):
-    '''
-    Just going to test adding this comment
-    so I can make sure that I got my key
-    set up correct in github.
-    '''
     strings = []
 
     if rules[key] == 'a' or rules[key] == 'b':

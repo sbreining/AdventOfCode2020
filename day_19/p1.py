@@ -1,25 +1,6 @@
 from tools import get_input
 
 
-def all_possible(key, rules):
-    strings = []
-
-    if rules[key] == 'a' or rules[key] == 'b':
-        return rules[key]
-
-    for keys in rules[key]:
-        values = keys.split(' ')
-        string = ''
-        for val in values:
-            result = all_possible(val, rules)
-            if result == 'a' or result == 'b':
-                string += result
-
-        strings.append(string)
-
-    return strings
-
-
 def map_rules(rules):
     parsed_rules = {}
     for rule in rules:
@@ -37,6 +18,31 @@ def map_rules(rules):
     return parsed_rules
 
 
+def something(key, rules):
+    print('Key:', key)
+    value = rules[key]
+    
+    if value == 'a' or value == 'b':
+        return value
+
+    i = 0
+    while i < len(value):
+        paths = value[i].split(' ')
+        j = 0
+        while j < len(paths):
+            paths[j] = something(paths[j], rules)
+            j += 1
+        print('Paths:', paths)
+        try:
+            value[i] = ' '.join(paths)
+        except:
+            break
+        i += 1
+
+    return value
+
+    
+
 def day_19():
     values = get_input()
     values = values.split('\n\n')
@@ -45,7 +51,7 @@ def day_19():
 
     rules = map_rules(rules)
 
-    possibles = all_possible('0', rules)
+    possibles = something('0', rules)
     print('Possibles:', possibles)
     return rules
     text = values[1].split('\n')
